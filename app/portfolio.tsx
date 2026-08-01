@@ -171,11 +171,10 @@ export function Portfolio() {
 
       <section id="top" className="hero" aria-labelledby="hero-title">
         <picture className="hero-picture">
-          <source media="(max-width: 720px)" srcSet="/assets/hero-mobile.png" />
-          <img src="/assets/hero-desktop.png" alt="李博楠手持发光魔杖，站在奇幻影像世界之中" fetchPriority="high" />
+          <source media="(max-width: 720px)" srcSet="/assets/hero-mobile.webp" />
+          <img src="/assets/hero-desktop.webp" alt="李博楠手持发光魔杖，站在奇幻影像世界之中" fetchPriority="high" />
         </picture>
         <div className="hero-vignette" />
-        <div className="magic-burst" aria-hidden="true" />
         <div className="hero-index" aria-hidden="true">SCENE 00 · THE OPENING</div>
         <div className="hero-content" data-reveal>
           <p className="eyebrow">李博楠 · AI 视频编导</p>
