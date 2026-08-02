@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 type Project = {
   number: string;
@@ -81,6 +81,8 @@ export function Portfolio() {
   const [selected, setSelected] = useState<Project | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const [timecode, setTimecode] = useState("00:00.00");
+  const heroSequenceRef = useRef<HTMLElement>(null);
+  const heroVideoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -114,6 +116,56 @@ export function Portfolio() {
     update();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    const section = heroSequenceRef.current;
+    const video = heroVideoRef.current;
+    if (!section || !video) return;
+
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let animationFrame = 0;
+
+    const syncHero = () => {
+      animationFrame = 0;
+      const scrollDistance = Math.max(1, section.offsetHeight - window.innerHeight);
+      const progress = Math.min(1, Math.max(0, -section.getBoundingClientRect().top / scrollDistance));
+
+      section.style.setProperty("--hero-progress", progress.toFixed(4));
+      section.style.setProperty("--hero-copy-opacity", Math.max(0, 1 - progress * 2.4).toFixed(3));
+      section.style.setProperty("--hero-copy-shift", `${Math.min(36, progress * 36).toFixed(1)}px`);
+
+      if (reducedMotion.matches) {
+        section.style.setProperty("--hero-copy-opacity", "1");
+        section.style.setProperty("--hero-copy-shift", "0px");
+        video.pause();
+        return;
+      }
+
+      if (video.readyState >= 1 && Number.isFinite(video.duration)) {
+        const targetTime = progress * Math.max(0, video.duration - 0.04);
+        if (Math.abs(video.currentTime - targetTime) > 0.025) video.currentTime = targetTime;
+      }
+    };
+
+    const scheduleSync = () => {
+      if (!animationFrame) animationFrame = requestAnimationFrame(syncHero);
+    };
+
+    video.pause();
+    video.addEventListener("loadedmetadata", syncHero);
+    window.addEventListener("scroll", scheduleSync, { passive: true });
+    window.addEventListener("resize", scheduleSync);
+    reducedMotion.addEventListener("change", scheduleSync);
+    syncHero();
+
+    return () => {
+      if (animationFrame) cancelAnimationFrame(animationFrame);
+      video.removeEventListener("loadedmetadata", syncHero);
+      window.removeEventListener("scroll", scheduleSync);
+      window.removeEventListener("resize", scheduleSync);
+      reducedMotion.removeEventListener("change", scheduleSync);
+    };
   }, []);
 
   useEffect(() => {
@@ -169,23 +221,37 @@ export function Portfolio() {
         <span>30 FPS</span>
       </div>
 
-      <section id="top" className="hero" aria-labelledby="hero-title">
-        <picture className="hero-picture">
-          <source media="(max-width: 720px)" srcSet="/assets/hero-mobile.webp" />
-          <img src="/assets/hero-desktop.webp" alt="李博楠手持发光魔杖，站在奇幻影像世界之中" fetchPriority="high" />
-        </picture>
-        <div className="hero-vignette" />
-        <div className="hero-index" aria-hidden="true">SCENE 00 · THE OPENING</div>
-        <div className="hero-content" data-reveal>
-          <p className="eyebrow">李博楠 · AI 视频编导</p>
-          <h1 id="hero-title">让奇思妙想<br />触手可及</h1>
-          <p className="hero-copy">而我，是那个懂得如何挥动魔杖的人。</p>
-          <div className="hero-actions">
-            <a className="button button-primary" href="#work">进入作品 <span aria-hidden="true">↓</span></a>
-            <button className="button button-ghost" type="button" onClick={() => setSelected(projects[0])}>播放代表作 <span aria-hidden="true">▶</span></button>
+      <section ref={heroSequenceRef} id="top" className="hero-sequence" aria-labelledby="hero-title">
+        <div className="hero">
+          <picture className="hero-picture">
+            <source media="(max-width: 720px)" srcSet="/assets/hero-mobile.webp" />
+            <img src="/assets/hero-desktop.webp" alt="李博楠手持发光魔杖，站在奇幻影像世界之中" fetchPriority="high" />
+          </picture>
+          <video
+            ref={heroVideoRef}
+            className="hero-video"
+            muted
+            playsInline
+            preload="auto"
+            poster="/assets/video/hero-wand-poster.webp"
+            aria-hidden="true"
+            tabIndex={-1}
+          >
+            <source src="/media/hero-wand-scroll.mp4" type="video/mp4" />
+          </video>
+          <div className="hero-vignette" />
+          <div className="hero-index" aria-hidden="true">SCENE 00 · THE OPENING</div>
+          <div className="hero-content" data-reveal>
+            <p className="eyebrow">李博楠 · AI 视频编导</p>
+            <h1 id="hero-title">让奇思妙想<br />触手可及</h1>
+            <p className="hero-copy">而我，是那个懂得如何挥动魔杖的人。</p>
+            <div className="hero-actions">
+              <a className="button button-primary" href="#work">进入作品 <span aria-hidden="true">↓</span></a>
+              <button className="button button-ghost" type="button" onClick={() => setSelected(projects[0])}>播放代表作 <span aria-hidden="true">▶</span></button>
+            </div>
           </div>
+          <div className="scroll-cue" aria-hidden="true"><span>SCROLL TO CAST</span><i /></div>
         </div>
-        <div className="scroll-cue" aria-hidden="true"><span>SCROLL TO DIRECT</span><i /></div>
       </section>
 
       <div id="content">

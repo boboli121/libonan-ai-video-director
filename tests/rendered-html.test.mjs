@@ -27,6 +27,7 @@ test("server-renders the finished portfolio", async () => {
   assert.match(html, /端午粽子/);
   assert.match(html, /唐风浩荡/);
   assert.match(html, /MAKE IT REUSABLE/);
+  assert.match(html, /hero-wand-scroll\.mp4/);
   assert.match(html, /\/docs\/libonan-resume\.pdf/);
   assert.doesNotMatch(html, /codex-preview|Your site is taking shape/);
 });
@@ -42,6 +43,7 @@ test("removes the starter preview and preserves accessibility contracts", async 
 
   assert.match(page, /<Portfolio \/>/);
   assert.match(portfolio, /className="skip-link"/);
+  assert.match(portfolio, /heroSequenceRef|hero-wand-scroll\.mp4/);
   assert.match(portfolio, /aria-modal="true"/);
   assert.match(portfolio, /prefers-reduced-motion|modal-open|Escape/);
   assert.match(layout, /李博楠｜AI 视频编导/);
@@ -53,4 +55,6 @@ test("removes the starter preview and preserves accessibility contracts", async 
   await assert.rejects(access(new URL("../app/_sites-preview/preview.css", import.meta.url)));
   await access(new URL("../public/docs/libonan-resume.pdf", import.meta.url));
   await access(new URL("../public/og.png", import.meta.url));
+  await access(new URL("../public/media/hero-wand-scroll.mp4", import.meta.url));
+  await access(new URL("../public/assets/video/hero-wand-poster.webp", import.meta.url));
 });
