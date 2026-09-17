@@ -1,0 +1,59 @@
+/* Classroom content has its own layout, independent of painted scenery. */
+.wc-room-wayfinding { position: sticky; top: 76px; z-index: 60; padding: 12px 5%; background: #080f1cf2; border-bottom: 1px solid #d4ad6830; }
+.wc-room-wayfinding .wc-back { position: static; display: inline-flex; align-items: center; gap: 14px; padding: 10px 18px; border: 1px solid #d4ad6890; background: #d4ad6815; color: #f4e8d1; font-size: 17px; }
+.wc-back>span:first-child { font-size: 24px; color: #e8c481; }
+.wc-back small { display: block; font-size: 14px; margin-top: 4px; color: #c0b6a5; }
+.wc-room-heading { text-align: center; padding: 28px 0 16px; }
+.wc-course-intro { max-width: 850px; width: 88%; margin: 8px auto 35px; color: #d9cebc; font-size: 18px; text-align: left; }
+.wc-room-illusion .wc-classroom-stage { aspect-ratio: auto; display: grid; grid-template-columns: minmax(180px,1fr) minmax(260px,340px) minmax(220px,1fr); gap: clamp(24px,4vw,64px); align-items: center; padding: 90px max(7%,24px); background: linear-gradient(#080f1c15,#080f1c35),url('/assets/castle/illusion-v2.png') center/cover; }
+.wc-room-illusion .wc-classroom-stage>.wc-scene { display: none; }
+.wc-room-illusion .wc-poster-wall { position: static; width: 100%; height: auto; grid-template-rows: repeat(3,auto); gap: 18px; }
+.wc-room-illusion .wc-poster-wall button { aspect-ratio: 9/16; max-width: 110px; justify-self: center; width: 100%; }
+.wc-room-illusion .wc-poster-wall button>span { font-size: 14px; opacity: 1; }
+.wc-room-illusion .wc-poster-wall .wc-film-reserved { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; border-style: dashed; color: #d5c2a0; background: linear-gradient(155deg,#293044,#101725); cursor: default; }
+.wc-room-illusion .wc-film-reserved:hover { transform: none; }
+.wc-film-reserved small { font-size: 12px; }
+.wc-film-reserved strong { font-family: var(--serif); font-size: 20px; line-height: 1.6; font-weight: 400; }
+.wc-room-illusion .wc-poster-wall .wc-film-reserved>span { display: none; }
+.wc-room-illusion .wc-film-screen { position: relative; inset: auto; width: 100%; height: auto; aspect-ratio: 9/16; border: 5px double #c69e54; box-shadow: 0 0 0 5px #35291a,0 20px 65px #0009; }
+.wc-room-illusion .wc-film-screen { width: min(100%,calc((100svh - 210px)*.5625)); min-width: 220px; justify-self: center; }
+.wc-film-screen video { display: block; }
+.wc-screen-play { position: relative; isolation: isolate; }
+.wc-player-poster { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; z-index: -2; }
+.wc-screen-play:after { content: ""; position: absolute; inset: 0; background: linear-gradient(transparent,#000a); z-index: -1; }
+.wc-room-illusion .wc-film-caption { position: static; width: auto; height: auto; display: flex; gap: 20px; }
+.wc-film-caption h2 { font-size: clamp(26px,2.7vw,42px); line-height: 1.5; margin: 0; }
+.wc-room-illusion .wc-film-caption>span { display: block; font-size: 14px; }
+.wc-room-illusion .wc-film-caption a { font-size: 16px; border-bottom: 1px solid #d4ad6860; padding-bottom: 12px; align-self: flex-start; }
+.wc-room-spells .wc-book-copy { left: 22%; top: 41%; width: 38%; height: 23%; gap: 14%; }
+.wc-room-spells .wc-book-copy strong,.wc-room-spells .wc-book-copy p { font-family: "Kaiti SC","STKaiti","KaiTi",cursive; white-space: pre-line; font-weight: 400; line-height: 1.75; }
+.wc-room-spells .wc-book-copy strong { font-size: clamp(18px,2vw,32px); margin-top: 5px; }
+.wc-room-spells .wc-book-copy p { font-size: clamp(16px,1.55vw,25px); }
+.wc-room-spells .wc-book-copy small { font-size: 14px; }
+.wc-spell-explanation { position: absolute; left: 77%; top: 25%; width: 17%; height: 43%; display: flex; flex-direction: column; justify-content: center; }
+.wc-spell-explanation h2 { font-size: clamp(22px,2vw,32px); margin: 10px 0 16px; }
+.wc-spell-explanation p { font-size: clamp(16px,1.15vw,19px); margin: 0; }
+.wc-spell-chapters { justify-content: center; margin-top: -20px; }
+.wc-evidence-single h2 { font-size: 26px; margin: 25px 0; }
+.wc-craft-flow { display: grid; grid-template-columns: repeat(4,1fr); list-style: none; width: min(1200px,90%); margin: 0 auto 35px; padding: 0; gap: 24px; }
+.wc-craft-flow li { border-top: 1px solid #d4ad6870; padding-top: 16px; font-size: 17px; }
+.wc-craft-flow span { display: block; color: #d4ad68; margin-bottom: 10px; font-size: 14px; }
+.wc-workshop-context { max-width: 850px; margin: auto; }
+.wc-workshop-context p { color: #c0b6a5; font-size: 18px; }
+@media(max-width:1000px) {
+ .wc-room-illusion .wc-classroom-stage { grid-template-columns: 160px minmax(230px,300px) 1fr; gap: 25px; padding: 30px; }
+ .wc-spell-explanation { position: relative; inset: auto; width: auto; height: auto; padding: 24px; background: #0b1321; }
+ .wc-room-spells .wc-classroom-stage { aspect-ratio: auto; padding-top: 56.28%; }
+ .wc-room-spells .wc-classroom-stage>.wc-scene { height: auto; }
+ .wc-room-spells .wc-book-copy { top: 0; height: 10.7vw; margin-top: 24.76vw; }
+}
+@media(max-width:760px) {
+ .wc-room-wayfinding { top: 66px; padding: 8px 4%; }
+ .wc-room-illusion .wc-classroom-stage { grid-template-columns: 1fr; padding: 26px; }
+ .wc-room-illusion .wc-poster-wall { grid-template-columns: repeat(3,1fr); grid-template-rows: auto; order: 2; gap: 12px; }
+ .wc-room-illusion .wc-film-screen { max-width: 340px; justify-self: center; }
+ .wc-room-illusion .wc-film-caption { order: 3; }
+ .wc-room-spells .wc-book-copy { display: none; }
+ .wc-craft-flow { grid-template-columns: 1fr 1fr; }
+ .wc-course-intro { font-size: 16px; }
+}

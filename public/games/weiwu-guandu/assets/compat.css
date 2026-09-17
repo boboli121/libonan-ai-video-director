@@ -1,0 +1,59 @@
+button:focus, a:focus { outline: 3px solid #c3aa71; outline-offset: 3px; }
+html { touch-action: manipulation; }
+.no-flex-gap .row-units > * + *, .no-flex-gap .player-hand > * + *,
+.no-flex-gap .side-resources > * + * { margin-left: 6px; }
+.no-flex-gap .action-rail > * + * { margin-top: 6px; }
+.mobile-battle-tools { padding-bottom: 0; padding-bottom: var(--safe-area-inset-bottom, env(safe-area-inset-bottom, 0px)); }
+/* Chrome 61 baseline for the offline Mini Tool package.
+   Modern browsers keep the richer rules emitted by Vite. */
+@supports not (width: min(1px, 2px)) {
+  html, body, #root, .art-runtime { min-height: 100vh; }
+  body { -webkit-touch-callout: none; }
+  html { touch-action: manipulation; }
+  button:focus, a:focus { outline: 3px solid #c3aa71; outline-offset: 3px; }
+
+  .report-header { grid-template-columns: minmax(180px, .8fr) minmax(280px, 1.4fr) auto; grid-gap: 14px; padding: 6px 24px; }
+  .report-header h1 { font-size: 28px; }
+  .battle-layout { grid-template-columns: minmax(0, 1fr) 300px; grid-gap: 8px; height: calc(100vh - 76px); }
+  .battle-report { grid-template-rows: 34px 24px minmax(162px, 1fr) 38px minmax(162px, 1fr) 34px 170px; }
+  .side-status, .side-resources, .prototype-note, .row-units, .player-hand, .action-rail { grid-gap: 6px; }
+
+  .card--hand { width: 100px; height: 133px; flex-basis: 100px; }
+  .card--deployed { width: 64px; height: 86px; flex-basis: 64px; }
+  .scout-card { width: 176px; height: 235px; }
+  .recruit-card, .rest-card { min-height: 210px; }
+  .general-entrance { width: 94vw; height: 235px; }
+  .commander-entrance { width: 92vw; height: 210px; }
+
+  .card-art-vignette, .card-data, .scout-card-data, .recruit-card-data,
+  .rest-card-data, .start-key-visual, .start-title-block::after,
+  .outcome-scrim, .round-result-scrim, .scout-reveal-scrim,
+  .mechanic-tutorial-scrim, .settings-scrim, .tutorial-pause,
+  .entrance-overlay, .entrance-scrim, .entrance-banner-art,
+  .ink-scene-transition { top: 0; right: 0; bottom: 0; left: 0; }
+
+  .onboarding-page { min-height: 100vh; }
+  .onboarding-page--complete { padding: 48px; }
+  .onboarding-scroll { width: 760px; max-width: 100%; padding: 42px; }
+  .onboarding-scroll h1, .roster-scroll h1, .tutorial-board h1 { font-size: 42px; }
+  .tutorial-board { width: 100%; min-height: calc(100vh - 28px); }
+  .roster-scroll { width: 100%; min-height: calc(100vh - 48px); padding: 36px; }
+
+  @media (max-width: 900px) {
+    .app-shell, .tutorial-formal-shell { min-height: 100vh; padding-bottom: 64px; }
+    .art-runtime .app-shell { display: flex; flex-direction: column; height: calc(100vh - 42px); height: calc(var(--app-height, 100vh) - 42px); min-height: 0; padding-bottom: 0; overflow: hidden; }
+    .art-runtime .report-header { min-height: 38px; padding: 3px 8px; grid-gap: 3px; }
+    .art-runtime .report-header .eyebrow { display: none; }
+    .art-runtime .battle-layout { flex: 1; min-height: 0; margin-top: 2px; margin-bottom: 0; }
+    .art-runtime .battle-report { flex: 1; min-height: 0; height: 100%; overflow: auto; grid-template-columns: minmax(0, 1fr); grid-template-rows: 36px 0 minmax(156px, 1fr) 30px minmax(156px, 1fr) 36px auto; }
+    .art-runtime .war-log, .art-runtime .tutorial-tip, .art-runtime .tutorial-formal-footer { display: none; }
+    .mobile-panel-log .war-log { display: flex; position: fixed; top: 60px; right: 8px; bottom: 48px; left: 8px; z-index: 100; height: auto; max-height: none; }
+    .mobile-panel-help .mobile-help-panel { display: block; position: fixed; right: 8px; bottom: 160px; left: 8px; z-index: 100; }
+    .mobile-panel-help .tutorial-formal-footer { display: flex; position: fixed; right: 8px; bottom: 48px; left: 8px; z-index: 100; }
+    .mobile-battle-tools { position: fixed; right: 50px; bottom: 0; left: 4px; z-index: 101; }
+    .mobile-inspector-dialog, .settings-panel, .scout-reveal-panel,
+    .round-result-panel, .tutorial-briefing-panel { max-height: calc(100vh - 24px); }
+    .mulligan-page { min-height: 100vh; }
+    .mulligan-hand .card--hand { width: 96px; height: 128px; flex-basis: 96px; }
+  }
+}

@@ -1,5 +1,5 @@
-import { Portfolio } from "./portfolio";
+import { WizardPortfolio } from "./wizard-portfolio";
 
 export default function Home() {
-  return <Portfolio />;
+  return <WizardPortfolio />;
 }

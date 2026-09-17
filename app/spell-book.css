@@ -1,0 +1,34 @@
+.wc-room-spells .wc-classroom-stage { aspect-ratio: 1672 / 941; padding: 0; overflow: visible; }
+.wc-room-spells .wc-classroom-stage > .wc-scene { width: 100%; height: 100%; object-fit: fill; }
+.spell-reading { position: absolute; inset: 0; --ink: #513819; --gold: #e1bd76; }
+.spell-page-words { position: absolute; left: 21.5%; top: 37%; width: 17%; color: var(--ink); font-family: "Kaiti SC","STKaiti","KaiTi",serif; animation: spell-ink .45s ease both; }
+.spell-page-words small { font-size: clamp(13px,1.2vw,18px); }
+.spell-page-words h2 { font-family: inherit; white-space: pre-line; font-size: clamp(22px,2.4vw,38px); line-height: 1.65; margin: 9px 0; font-weight: 600; }
+.spell-page-words p { font-size: clamp(14px,1.3vw,20px); line-height: 1.6; white-space: pre-line; margin: 0; }
+.spell-illustration { position: absolute; left: 43%; top: 35%; width: 19%; height: 31%; object-fit: contain; mix-blend-mode: multiply; }
+.spell-page-controls { position: absolute; left: 20%; top: 71%; width: 44%; display: flex; justify-content: space-between; gap: 16px; }
+.spell-page-controls button { min-height: 44px; border: 1px solid #c59b5b80; border-radius: 2px 2px 10px 2px; padding: 8px 14px; background: #15131ce8; color: #f0d7a5; font-size: 15px; transition: box-shadow .2s,transform .2s; }
+.spell-page-controls button:hover:not(:disabled) { transform: translateY(-3px); box-shadow: 0 0 18px #d2a25365; }
+.spell-page-controls button:disabled { opacity: .4; cursor: default; }
+.spell-floating-copy { position: absolute; left: 73%; top: 25%; width: 23%; color: #f0e5d0; }
+.spell-floating-copy > div { animation: spell-materialize .7s ease both; }
+.spell-floating-copy .wc-eyebrow { color: var(--gold); font-size: 13px; letter-spacing: .1em; }
+.spell-floating-copy h2 { font-family: var(--serif); font-size: clamp(25px,2.5vw,40px); font-weight: 500; line-height: 1.5; margin: 18px 0; color: #f0d7a5; }
+.spell-floating-copy p { font-size: clamp(16px,1.35vw,21px); line-height: 1.95; margin: 0; text-shadow: 0 2px 8px #000; }
+.spell-bookmarks { position: absolute; top: 86%; left: 19%; width: 48%; display: flex; gap: 10px; }
+.spell-bookmarks button { flex: 1; min-height: 52px; padding: 8px 6px; background: #151c29e8; border: 1px solid #c5a56a66; border-top: 3px solid #74664d; color: #c6bdac; font-size: 15px; }
+.spell-bookmarks button span { display: block; color: #c5a56a; font-size: 12px; }
+.spell-bookmarks button[aria-current] { border-top-color: #edc779; background: #44351fe8; color: #ffebc3; }
+.spell-reading button:focus-visible { outline: 2px solid #fff0b8; outline-offset: 4px; }
+.spell-turn-sheet { position: absolute; left: 41.4%; top: 32%; width: 23%; height: 38%; transform-origin: left center; transform-style: preserve-3d; z-index: 4; animation: spell-flip .85s ease-in-out both; pointer-events: none; }
+.spell-turn-sheet.is-backward { animation-direction: reverse; }
+.spell-sheet-front,.spell-sheet-back { position: absolute; inset: 0; backface-visibility: hidden; border-radius: 6% 8% 5% 2%; background: linear-gradient(90deg,#bc925a,#e5c792 13%,#e1bc82 86%,#c6a06a); box-shadow: 6px 7px 18px #27150470; overflow: hidden; }
+.spell-sheet-front img { width: 100%; height: 100%; object-fit: contain; mix-blend-mode: multiply; }
+.spell-sheet-back { transform: rotateY(180deg); display: grid; place-items: center; }
+.spell-sheet-back span { color: var(--ink); font: 26px/1.7 "Kaiti SC","STKaiti","KaiTi",serif; white-space: pre-line; }
+@keyframes spell-flip { 0% {transform: perspective(1600px) rotateY(0deg)} 50% {transform: perspective(1600px) rotateY(-85deg) rotateZ(-2deg)} 100% {transform: perspective(1600px) rotateY(-180deg)} }
+@keyframes spell-materialize { from {opacity: 0; transform: translateY(10px); filter: blur(5px); text-shadow: 0 0 20px #f7c563} to {opacity: 1; transform: none; filter: none; text-shadow: none} }
+@keyframes spell-ink { from {opacity: 0} to {opacity: 1} }
+@media(max-width:1000px) { .spell-floating-copy { top: 18%; } .spell-page-words {top: 34%;} .spell-page-words h2 {font-size: 21px;line-height:1.5;margin: 3px 0;} .spell-page-words p {font-size: 13px;line-height:1.4;} .spell-bookmarks {left: 15%;width: 54%;} }
+@media(max-width:700px) { .wc-room-spells .wc-classroom-stage {padding-bottom: 400px;} .wc-room-spells .wc-classroom-stage>.wc-scene {height: auto;} .spell-reading {height: 56.28vw;} .spell-floating-copy {left: 7%;top: calc(56.28vw + 110px);width: 86%;} .spell-bookmarks {top: calc(56.28vw + 30px);left: 5%;width: 90%;} .spell-page-words h2 {font-size: 17px;} .spell-page-words p {display:none;} .spell-page-controls {left: 12%;width: 57%;} .spell-page-controls button {font-size: 12px;padding:4px;} }
+@media(prefers-reduced-motion:reduce) { .spell-reading *, .spell-reading *::before { animation: none!important; transition: none!important; } }
