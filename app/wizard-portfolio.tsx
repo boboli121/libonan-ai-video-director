@@ -7,7 +7,8 @@ import "./classroom-refinement.css";
 import { SpellBook } from "./SpellBook";
 import "./spell-book.css";
 
-const castle = "/assets/castle/";
+const asset = (path: string) => `${import.meta.env.BASE_URL}${path.replace(/^\//, "")}`;
+const castle = asset("/assets/castle/");
 const portraitLayers = {
   illusion: { x: 547, y: 110, w: 439, h: 650, ax: 25, ay: 48, aw: 383, ah: 570 },
   spells: { x: 126, y: 156, w: 390, h: 320, ax: 25, ay: 42, aw: 336, ah: 246 },
@@ -18,7 +19,7 @@ const courses = [
   { id: "illusion", name: "幻象课", real: "AI 创意视频", english: "THE ART OF ILLUSION", line: "把奇思妙想，变成一支片子。", intro: "从一个念头，到最后一帧。这里展出的作品，均由我独立完成策划与制作。", left: 33, top: 13, width: 26, height: 68 },
   { id: "spells", name: "咒语研习课", real: "开发者案例 Skill", english: "THE SPELL ARCHIVE", line: "今天先不学咒语，看看咒语是怎么写出来的。", intro: "把采访提纲与口播脚本的制作经验，整理成下次还能用的 Skill。", left: 7.5, top: 18, width: 23, height: 33 },
   { id: "craft", name: "魔法工艺课", real: "Codex 自动化剪辑", english: "THE ENCHANTED WORKSHOP", line: "让标准化口播内容更快完成制作。", intro: "让 Codex 为重复剪辑搭把手，留下可查看、可复盘的制作记录。", left: 62, top: 18, width: 28, height: 34 },
-  { id: "curiosity", name: "有求必应实践课", real: "更多 AI 玩法", english: "A ROOM FOR CURIOSITY", line: "课表上没有，也可以试试。", intro: "做一个个人站，做一款三国卡牌游戏。好奇的时候，就动手做一点。", left: 63.5, top: 57.5, width: 25, height: 28 },
+  { id: "curiosity", name: "有求必应实践课", real: "更多 AI 玩法", english: "A ROOM FOR CURIOSITY", line: "课表上没有，也可以试试。", intro: "改造 Touch Bar，做一款三国卡牌游戏。好奇的时候，就动手做一点。", left: 63.5, top: 57.5, width: 25, height: 28 },
 ] as const;
 type Room = typeof courses[number]["id"];
 const films = [
@@ -100,7 +101,7 @@ export function WizardPortfolio() {
 
   useEffect(() => {
     const restore = () => {
-      if (["#class-content", "#website-experiment"].includes(window.location.hash)) return;
+      if (["#class-content", "#website-experiment", "#touchbar-experiment"].includes(window.location.hash)) return;
       const next = roomFromHash();
       const isHall = window.location.hash === "#hall";
       setDirectHall(isHall);
@@ -223,7 +224,7 @@ export function WizardPortfolio() {
             <p className="wc-gate-caption">门后，收着我的一些魔法练习。<small>继续向下，推门看看。</small></p>
           </div>
           <div className="wc-spell-layer">
-          <video ref={heroVideo} className="wc-hero-video" muted playsInline preload="auto" poster="/assets/video/hero-wand-poster.webp" aria-hidden="true" tabIndex={-1}><source src="/media/hero-wand-scroll.mp4" type="video/mp4" /></video>
+          <video ref={heroVideo} className="wc-hero-video" muted playsInline preload="auto" poster={asset("/assets/video/hero-wand-poster.webp")} aria-hidden="true" tabIndex={-1}><source src={asset("/media/hero-wand-scroll.mp4")} type="video/mp4" /></video>
           <div className="wc-opening-shade" />
           <div className="wc-invitation"><span className="wc-eyebrow">AN INVITATION TO THE UNEXPECTED</span><h1 id="opening-title">让奇思妙想<br />触手可及。</h1><p>给屏幕前的你：<br />这里收着我的作品，还有正在练习的新魔法。</p><a href="#hall" className="wc-button" onClick={(event) => { event.preventDefault(); visit(null); }}>直接进入画像大厅 ↓</a></div>
           </div>
@@ -241,24 +242,28 @@ export function WizardPortfolio() {
       <div className="wc-stage wc-classroom-stage">
         <img className="wc-scene" src={`${castle}${room === "spells" ? "spells-v2" : room}.png`} alt={`${activeCourse.name}教室场景`} />
         {room === "illusion" && <>
-          <div className="wc-poster-wall">{films.map((film, index) => <button key={film.id} className={filmIndex === index ? "selected" : ""} aria-label={`选择作品：${film.title}`} aria-pressed={filmIndex === index} onClick={() => { setFilmIndex(index); setPlaying(false); setVideoError(false); }}><img src={`/assets/covers/${film.id}.webp`} alt={`${film.title}完整视频封面`} width={405} height={720} /><span>{film.title}</span></button>)}</div>
-          <div className="wc-film-screen">{playing ? <video key={selectedFilm.id} controls autoPlay playsInline poster={`/assets/covers/${selectedFilm.id}.webp`} onError={() => setVideoError(true)} src={`/media/${selectedFilm.id}.mp4`} aria-label={`播放${selectedFilm.title}`} /> : <button className="wc-screen-play" onClick={() => setPlaying(true)}><img className="wc-player-poster" src={`/assets/covers/${selectedFilm.id}.webp`} alt="" /><span className="wc-play-symbol">▷</span><strong>{selectedFilm.title}</strong><span>播放完整作品</span></button>}{videoError && <div className="wc-video-error">视频暂时没加载出来。<button onClick={() => { setPlaying(false); setVideoError(false); }}>返回后重试</button></div>}</div>
+          <div className="wc-poster-wall">{films.map((film, index) => <button key={film.id} className={filmIndex === index ? "selected" : ""} aria-label={`选择作品：${film.title}`} aria-pressed={filmIndex === index} onClick={() => { setFilmIndex(index); setPlaying(false); setVideoError(false); }}><img src={asset(`/assets/covers/${film.id}.webp`)} alt={`${film.title}完整视频封面`} width={405} height={720} /><span>{film.title}</span></button>)}</div>
+          <div className="wc-film-screen">{playing ? <video key={selectedFilm.id} controls autoPlay playsInline poster={asset(`/assets/covers/${selectedFilm.id}.webp`)} onError={() => setVideoError(true)} src={asset(`/media/${selectedFilm.id}.mp4`)} aria-label={`播放${selectedFilm.title}`} /> : <button className="wc-screen-play" onClick={() => setPlaying(true)}><img className="wc-player-poster" src={asset(`/assets/covers/${selectedFilm.id}.webp`)} alt="" /><span className="wc-play-symbol">▷</span><strong>{selectedFilm.title}</strong><span>播放完整作品</span></button>}{videoError && <div className="wc-video-error">视频暂时没加载出来。<button onClick={() => { setPlaying(false); setVideoError(false); }}>返回后重试</button></div>}</div>
           <div className="wc-film-caption"><span>{selectedFilm.tag}</span><h2>{selectedFilm.title}</h2><strong>{selectedFilm.hook}</strong>{selectedFilm.images.length > 0 && <a href="#class-content">看看制作过程 ↓</a>}</div>
         </>}
         {room === "spells" && <SpellBook chapters={spellPages} />}
-        {room === "craft" && <div className="wc-workshop-records">{[1, 2, 3].map((item) => <div key={item} className={`wc-record wc-record-${item}`}>{imageButton(`/assets/process/auto-edit-${item}.webp`, `自动剪辑探索记录 ${item}`)}</div>)}</div>}
-        {room === "curiosity" && <><a className="wc-game-cover" href="/games/weiwu-guandu/index.html" target="_blank" rel="noreferrer"><img src="/assets/guandu/weiwu-guandu-cover.png" alt="魏武：官渡完整游戏主视觉" /><span>试玩《魏武：官渡》 ↗</span></a><a href="#website-experiment" className="wc-site-portal"><span className="wc-eyebrow">VIBE CODING</span><strong>这扇窗里，<br />就是本站。</strong><span>看看网站改版实验 ↓</span></a></>}
+        {room === "craft" && <div className="wc-workshop-records">{[1, 2, 3].map((item) => <div key={item} className={`wc-record wc-record-${item}`}>{imageButton(asset(`/assets/process/auto-edit-${item}.webp`), `自动剪辑探索记录 ${item}`)}</div>)}</div>}
+        {room === "curiosity" && <><a className="wc-game-cover" href={asset("/games/weiwu-guandu/index.html")} target="_blank" rel="noreferrer"><img src={asset("/assets/guandu/weiwu-guandu-cover.png")} alt="魏武：官渡完整游戏主视觉" /><span>试玩《魏武：官渡》 ↗</span></a><a href="#touchbar-experiment" className="wc-site-portal"><span className="wc-eyebrow">TOUCH BAR EXPERIMENT</span><strong>给键盘添一道<br />小魔法。</strong><span>看看 Touch Bar 改造 ↓</span></a></>}
       </div>
 
       <div id="class-content" className="wc-class-content">
         {room === "illusion" && <>
           <div className="wc-tabs" aria-label="选择视频作品">{films.map((film, index) => <button key={film.id} aria-pressed={index === filmIndex} onClick={() => { setFilmIndex(index); setPlaying(false); setVideoError(false); }}>{film.title}</button>)}</div>
-          <div className="wc-editorial"><div><span className="wc-eyebrow">BEHIND THE ILLUSION</span><h2>{selectedFilm.hook}</h2></div><div><p>{selectedFilm.copy}</p><p className="wc-role">从创意策划到最终成片，由我独立完成。</p>{selectedFilm.script && <a className="wc-button" href={`/docs/${selectedFilm.script}-script.pdf`} target="_blank" rel="noreferrer">查看完整创意脚本 ↗</a>}</div></div>
-          <div className="wc-evidence-grid">{selectedFilm.images.map(([file, caption]) => <figure key={file}>{imageButton(`/assets/process/${file}.webp`, caption)}<figcaption>{caption}</figcaption></figure>)}</div>
+          <div className="wc-editorial"><div><span className="wc-eyebrow">BEHIND THE ILLUSION</span><h2>{selectedFilm.hook}</h2></div><div><p>{selectedFilm.copy}</p><p className="wc-role">从创意策划到最终成片，由我独立完成。</p>{selectedFilm.script && <a className="wc-button" href={asset(`/docs/${selectedFilm.script}-script.pdf`)} target="_blank" rel="noreferrer">查看完整创意脚本 ↗</a>}</div></div>
+          <div className="wc-evidence-grid">{selectedFilm.images.map(([file, caption]) => <figure key={file}>{imageButton(asset(`/assets/process/${file}.webp`), caption)}<figcaption>{caption}</figcaption></figure>)}</div>
         </>}
-        {room === "spells" && <div className="wc-evidence-single"><h2>这就是我在使用的开发者案例 Skill</h2>{imageButton("/assets/process/skill-dev.webp", "开发者案例制作 Skill")}</div>}
+        {room === "spells" && <div className="wc-evidence-single"><h2>这就是我在使用的开发者案例 Skill</h2>{imageButton(asset("/assets/process/skill-dev.webp"), "开发者案例制作 Skill")}</div>}
         {room === "craft" && <div className="wc-workshop-context"><h2>自动剪辑的实际探索记录</h2><p>上方三张截图保留了制作过程，点击可以放大查看。自动剪辑完成后，再检查内容、节奏和基础效果，调整成片。</p></div>}
-        {room === "curiosity" && <><div className="wc-editorial"><div><span className="wc-eyebrow">WEIWU · GUANDU</span><h2>把三国兴趣，<br />做成一局能玩的游戏。</h2></div><div><p>《魏武：官渡》是一款围绕官渡之战制作的网页卡牌 Demo。我用它探索 AI 在视频之外的用法，让玩法、画面和网页真正放到一起。</p><div className="wc-actions"><a className="wc-button" href="/games/weiwu-guandu/index.html" target="_blank" rel="noreferrer">在线试玩 ↗</a><a className="wc-text-link" href="https://github.com/boboli121/weiwu-guandu" target="_blank" rel="noreferrer">查看 GitHub ↗</a></div></div></div><div id="website-experiment" className="wc-website-experiment">{imageButton(`${castle}hall.png`, "个人网站 · 画像大厅视觉设计")}<div><span className="wc-eyebrow">YOU ARE ALREADY INSIDE</span><h2>你正在看的，<br />也是一次实验。</h2><p>从最初的简历网站，到现在的魔法城堡，我用 AI 协助设计和开发，也不断调整怎样让人更快找到作品、理解我做过的事情。</p><p className="wc-aside">这座城堡还在修。好在不用搬石头。</p></div></div></>}
+        {room === "curiosity" && <><div className="wc-editorial"><div><span className="wc-eyebrow">WEIWU · GUANDU</span><h2>把三国兴趣，<br />做成一局能玩的游戏。</h2></div><div><p>《魏武：官渡》是一款围绕官渡之战制作的网页卡牌 Demo。我用它探索 AI 在视频之外的用法，让玩法、画面和网页真正放到一起。</p><div className="wc-actions"><a className="wc-button" href={asset("/games/weiwu-guandu/index.html")} target="_blank" rel="noreferrer">在线试玩 ↗</a><a className="wc-text-link" href="https://github.com/boboli121/weiwu-guandu" target="_blank" rel="noreferrer">查看 GitHub ↗</a></div></div></div>
+          <div id="touchbar-experiment" className="wc-website-experiment wc-touchbar-experiment">
+            <figure>{imageButton(asset("/assets/process/touchbar-demo.webp"), "Touch Bar 改造 · MacBook Pro 实机效果")}<figcaption>实机效果 · Codex 任务状态与剩余额度</figcaption></figure>
+            <div><span className="wc-eyebrow">TOUCH BAR · AGENT STATUS</span><h2>给键盘添一道<br />小魔法。</h2><p>我尝试把 MacBook Pro 的 Touch Bar 改造成 Codex 任务状态栏，让 AI 的工作进度出现在手边。</p><p>哪些任务正在执行、哪些需要操作，低头就能看到。轻点任务即可回到对应对话，还能查看 5 小时与每周的剩余额度。</p><p className="wc-aside">这次施法，落在了键盘上。</p><div className="wc-actions"><a className="wc-button" href="https://github.com/boboli121/touch-bar-agent-status" target="_blank" rel="noreferrer">查看 GitHub 项目 ↗</a></div></div>
+          </div></>}
         <a href="#hall" className="wc-button wc-return" onClick={(event) => { event.preventDefault(); visit(null); }}>← 返回全部课程，看看其他作品与探索</a>
       </div>
     </section>}
